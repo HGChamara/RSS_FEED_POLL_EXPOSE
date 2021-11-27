@@ -1,0 +1,17 @@
+schema {
+	query: Query
+}
+
+type Query {
+	allRssFeeds : [RssFeed]
+	findRssfeedById(id: Long): RssFeed
+}
+
+type RssFeed {
+	id: Long
+	title: String
+	description: String
+	publishedDate: String
+	link: String
+	image: String
+}

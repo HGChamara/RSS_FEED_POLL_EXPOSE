@@ -21,7 +21,7 @@ public class RssReader
 	@Autowired
 	RssFeedService rssFeedService;
 	
-	@Scheduled(fixedRate = 50000)
+	@Scheduled(fixedRate = 300000)
 	public void readRss() 
 	{
 		 try {
