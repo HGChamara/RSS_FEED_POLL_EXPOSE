@@ -1,4 +1,4 @@
-package com.gap.rss;
+package com.gap.rss.service.reader;
 
 import java.net.URL;
 
@@ -21,25 +21,18 @@ public class RssReader
 	@Autowired
 	RssFeedService rssFeedService;
 	
-	@Scheduled(fixedRate = 300000)
+	@Scheduled(fixedRate = 300000) //fixedRate should be in the application.properties
 	public void readRss() 
 	{
 		 try {
-	            String url = "http://feeds.nos.nl/nosjournaal?format=xml";
+	            String url = "http://feeds.nos.nl/nosjournaal?format=xml"; //This should be in the application.properties
 	 
 	            try (XmlReader reader = new XmlReader(new URL(url))) 
 	            {
 	                SyndFeed feed = new SyndFeedInput().build(reader);
-	                System.out.println(feed.getTitle());
-	                System.out.println("***********************************");
-	                for (SyndEntry entry : feed.getEntries()) {
+	                for (SyndEntry entry : feed.getEntries()) 
+	                {
 	                    System.out.println(entry.getTitle());
-	                    //System.out.println(entry.getDescription().getValue());
-	                    System.out.println(entry.getPublishedDate());
-	                    System.out.println(entry.getUri());
-	                    System.out.println(entry.getLink());
-	                    System.out.println(entry.getEnclosures().get(0).getUrl());
-	                    System.out.println("***********************************");
 	                    
 	                    RssFeed rssFeed = new RssFeed();
 	                    rssFeed.setTitle(entry.getTitle());
@@ -50,10 +43,11 @@ public class RssReader
 	                    		? entry.getEnclosures().get(0).getUrl() : "" );
 	                    rssFeedService.saveRssFeed(rssFeed);
 	                }
-	                System.out.println("Done");
 	            }
-	        }  catch (Exception e) {
-	            e.printStackTrace();
-	        }
+	        } 
+		 catch (Exception e)
+		 {
+			 e.printStackTrace();
+	     }
 	}
 }
