@@ -8,8 +8,10 @@ import graphql.ErrorType;
 import graphql.GraphQLError;
 import graphql.language.SourceLocation;
 
-public class RssFeedNotFoundException extends RuntimeException implements GraphQLError{
-
+public class RssFeedNotFoundException extends RuntimeException implements GraphQLError
+{
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, Object> extensions = new HashMap<String, Object>();
 
 	public RssFeedNotFoundException(String message, Long invalidFeedId) 
@@ -19,18 +21,20 @@ public class RssFeedNotFoundException extends RuntimeException implements GraphQ
 	}
 	
 	@Override
-	public List<SourceLocation> getLocations() {
-		// TODO Auto-generated method stub
+	public List<SourceLocation> getLocations() 
+	{
 		return null;
 	}
 	
 	@Override
-    public Map<String, Object> getExtensions() {
+    public Map<String, Object> getExtensions() 
+	{
         return extensions;
     }
 
     @Override
-    public ErrorType getErrorType() {
+    public ErrorType getErrorType() 
+    {
         return ErrorType.DataFetchingException;
     }
 

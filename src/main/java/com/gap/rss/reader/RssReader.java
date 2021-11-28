@@ -1,7 +1,9 @@
-package com.gap.rss.service.reader;
+package com.gap.rss.reader;
 
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,18 +23,21 @@ public class RssReader
 	@Autowired
 	RssFeedService rssFeedService;
 	
-	@Scheduled(fixedRate = 300000) //fixedRate should be in the application.properties
+	Logger log = LoggerFactory.getLogger(RssReader.class);
+	
+	@Scheduled(fixedRate = 300000) //TODO : fixedRate should be in the application.properties
 	public void readRss() 
 	{
+		log.debug("readRss() : RssReader.class");
 		 try {
-	            String url = "http://feeds.nos.nl/nosjournaal?format=xml"; //This should be in the application.properties
+	            String url = "http://feeds.nos.nl/nosjournaal?format=xml"; //TODO : This should be in the application.properties
 	 
 	            try (XmlReader reader = new XmlReader(new URL(url))) 
 	            {
 	                SyndFeed feed = new SyndFeedInput().build(reader);
 	                for (SyndEntry entry : feed.getEntries()) 
 	                {
-	                    System.out.println(entry.getTitle());
+	                	log.info("Reading Rss feed "+entry.getTitle());
 	                    
 	                    RssFeed rssFeed = new RssFeed();
 	                    rssFeed.setTitle(entry.getTitle());
